@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: strangers-on-air
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /config
+    envVars:
+      # Add your real Cloudflare Turnstile keys in the Render dashboard.
+      # Until then the server uses Cloudflare's test keys (everyone passes).
+      - key: TURNSTILE_SITE_KEY
+        sync: false
+      - key: TURNSTILE_SECRET
+        sync: false
