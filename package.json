@@ -1,0 +1,18 @@
+{
+  "name": "strangers-on-air",
+  "version": "0.1.0",
+  "description": "Random voice calls with strangers (local prototype)",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "ISC",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "ws": "^8.23.0"
+  }
+}
