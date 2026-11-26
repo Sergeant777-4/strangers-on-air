@@ -1,0 +1,105 @@
+:root {
+  --bg: #0d0f1a;
+  --panel: #161a2b;
+  --panel2: #1e2338;
+  --text: #eef0ff;
+  --muted: #8d93b8;
+  --accent: #7c6cff;
+  --accent2: #2fd4c4;
+  --danger: #ff5c7a;
+  --radius: 16px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: radial-gradient(1200px 600px at 50% -10%, #2a2160 0%, var(--bg) 60%);
+  color: var(--text);
+  font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+button { font: inherit; color: inherit; cursor: pointer; border: 0; }
+button:disabled { opacity: .4; cursor: not-allowed; }
+
+.app { max-width: 520px; margin: 0 auto; padding: 16px 20px 28px; min-height: 100%; display: flex; flex-direction: column; }
+.top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.logo { font-weight: 700; letter-spacing: .2px; display: flex; align-items: center; gap: 10px; }
+.wave { width: 22px; height: 22px; border-radius: 50%; background: conic-gradient(var(--accent), var(--accent2), var(--accent)); box-shadow: 0 0 18px var(--accent); }
+.online { color: var(--muted); font-size: 14px; display: flex; align-items: center; gap: 6px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #3ddc84; box-shadow: 0 0 8px #3ddc84; }
+
+.screen { display: none; flex-direction: column; gap: 18px; flex: 1; }
+.screen.active { display: flex; }
+
+h1 { font-size: 34px; margin: 18px 0 0; line-height: 1.1; }
+.sub { color: var(--muted); margin: 0; }
+.you { background: var(--panel); padding: 12px 14px; border-radius: var(--radius); color: var(--muted); }
+.you strong { color: var(--accent2); }
+
+.field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { background: var(--panel); padding: 8px 12px; border-radius: 999px; font-size: 14px; border: 1px solid transparent; }
+.chip.active { border-color: var(--accent); background: #2a2552; }
+select { width: 100%; background: var(--panel); color: var(--text); border: 1px solid #2a3050; border-radius: 12px; padding: 10px 12px; font: inherit; }
+.check { display: flex; gap: 10px; align-items: center; color: var(--muted); font-size: 14px; }
+.check input { width: 18px; height: 18px; accent-color: var(--accent); }
+
+.shield { display: flex; flex-direction: column; align-items: center; gap: 6px; min-height: 70px; }
+.shield-status { font-size: 13px; color: var(--muted); }
+.shield-status.ok { color: #3ddc84; }
+.shield-status.bad { color: var(--danger); }
+
+.big {
+  background: linear-gradient(135deg, var(--accent), #5a8bff);
+  padding: 16px; border-radius: var(--radius); font-size: 18px; font-weight: 700;
+  box-shadow: 0 8px 30px rgba(124,108,255,.35);
+}
+.fine { font-size: 12px; color: var(--muted); margin: 0; text-align: center; }
+
+/* call screen */
+.stage { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 6px; }
+.ring-wrap { position: relative; width: 170px; height: 170px; }
+.ring { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 6; }
+.ring .track { stroke: #262c48; }
+.ring .bar { stroke: var(--accent2); stroke-linecap: round; stroke-dasharray: 339.3; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear; }
+.avatar { position: absolute; inset: 22px; border-radius: 50%; background: var(--panel2); display: grid; place-items: center; font-size: 48px; overflow: visible; }
+.avatar span { position: relative; z-index: 1; }
+.pulse { position: absolute; inset: 0; border-radius: 50%; background: var(--accent); opacity: 0; transform: scale(1); transition: transform .08s, opacity .08s; }
+.searching .pulse { animation: search 1.6s ease-out infinite; }
+@keyframes search { 0% { transform: scale(1); opacity: .5; } 100% { transform: scale(1.6); opacity: 0; } }
+.status { color: var(--muted); font-size: 14px; }
+.partner { font-size: 22px; font-weight: 700; min-height: 30px; }
+.timer { font-variant-numeric: tabular-nums; color: var(--muted); }
+
+.topic { background: linear-gradient(135deg, #241f4d, #1b2a3f); border-radius: var(--radius); padding: 14px 16px; }
+.topic-label { font-size: 12px; text-transform: uppercase; letter-spacing: .6px; color: var(--accent2); }
+.topic-text { font-size: 17px; margin: 4px 0 6px; }
+.link { background: none; color: var(--muted); font-size: 13px; padding: 0; }
+
+.notice { min-height: 22px; text-align: center; color: var(--accent2); font-size: 14px; }
+
+.controls { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.ctl { background: var(--panel); border-radius: 14px; padding: 10px 4px; font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.ctl span { font-size: 20px; }
+.ctl.on { background: #2a2552; outline: 1px solid var(--accent); }
+.ctl.danger { color: var(--danger); }
+
+.chatbox { background: var(--panel); border-radius: var(--radius); padding: 8px; }
+.msgs { max-height: 110px; overflow-y: auto; font-size: 14px; padding: 2px 6px; display: flex; flex-direction: column; gap: 4px; }
+.msgs:empty { display: none; }
+.msgs .me { align-self: flex-end; color: var(--accent2); }
+.msgs .them { align-self: flex-start; }
+.msgs .sys { align-self: center; color: var(--muted); font-size: 12px; }
+#chatForm { display: flex; gap: 6px; margin-top: 4px; }
+#chatForm input { flex: 1; background: var(--panel2); border: 0; border-radius: 10px; padding: 9px 10px; color: var(--text); font: inherit; font-size: 14px; }
+#chatForm button { background: var(--panel2); border-radius: 10px; padding: 0 12px; font-size: 14px; }
+
+.bottom { display: flex; gap: 10px; margin-top: auto; }
+.bottom .next { flex: 1; }
+.ghost { background: var(--panel); padding: 14px 18px; border-radius: var(--radius); }
+
+dialog { background: var(--panel); color: var(--text); border: 1px solid #2a3050; border-radius: var(--radius); max-width: 360px; }
+dialog::backdrop { background: rgba(0,0,0,.6); }
+dialog h3 { margin-top: 0; }
+dialog p { color: var(--muted); font-size: 14px; }
+.dlg-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+.danger-btn { background: var(--danger); padding: 10px 14px; border-radius: 12px; font-weight: 600; }
