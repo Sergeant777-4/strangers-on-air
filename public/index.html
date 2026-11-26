@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Strangers on Air</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="top">
+      <div class="logo"><span class="wave"></span>Strangers on Air</div>
+      <div class="online"><span class="dot"></span><span id="online">0</span> online</div>
+    </header>
+
+    <!-- HOME -->
+    <section id="home" class="screen active">
+      <h1>Talk to someone new.</h1>
+      <p class="sub">Voice only. 3-minute rounds. No names, no numbers.</p>
+
+      <div class="you">You'll appear as <strong id="myNick">…</strong></div>
+
+      <div class="field">
+        <label>Vibe</label>
+        <div class="chips" id="interests">
+          <button class="chip active" data-v="any">Anything</button>
+          <button class="chip" data-v="chill">😌 Chill</button>
+          <button class="chip" data-v="funny">😂 Funny</button>
+          <button class="chip" data-v="deep">🌌 Deep talk</button>
+          <button class="chip" data-v="music">🎵 Music</button>
+          <button class="chip" data-v="gaming">🎮 Gaming</button>
+          <button class="chip" data-v="study">📚 Study</button>
+          <button class="chip" data-v="english">🗣️ Practice English</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="lang">Language</label>
+        <select id="lang">
+          <option value="any">Any language</option>
+          <option value="en">English</option>
+          <option value="ar">العربية</option>
+          <option value="fr">Français</option>
+          <option value="es">Español</option>
+          <option value="de">Deutsch</option>
+          <option value="tr">Türkçe</option>
+        </select>
+      </div>
+
+      <label class="check"><input type="checkbox" id="adult" /> I'm 18 or older and I'll be respectful.</label>
+
+      <div class="shield">
+        <div id="turnstile"></div>
+        <div class="shield-status" id="shieldStatus">Checking you're human (Cloudflare)…</div>
+      </div>
+
+      <button id="talkBtn" class="big" disabled>Talk</button>
+      <p class="fine">Your IP is never shown to the other person in this UI, but direct calls can reveal it to them technically. See README before going public.</p>
+    </section>
+
+    <!-- CALL -->
+    <section id="call" class="screen">
+      <div class="stage">
+        <div class="ring-wrap">
+          <svg class="ring" viewBox="0 0 120 120">
+            <circle class="track" cx="60" cy="60" r="54" />
+            <circle id="ringBar" class="bar" cx="60" cy="60" r="54" />
+          </svg>
+          <div class="avatar" id="avatar">
+            <div class="pulse" id="pulse"></div>
+            <span id="avatarEmoji">🎧</span>
+          </div>
+        </div>
+        <div class="status" id="status">Looking for someone…</div>
+        <div class="partner" id="partner"></div>
+        <div class="timer" id="timer">3:00</div>
+      </div>
+
+      <div class="topic" id="topicCard">
+        <div class="topic-label">Icebreaker</div>
+        <div class="topic-text" id="topic">—</div>
+        <button class="link" id="shuffle">Another one ↻</button>
+      </div>
+
+      <div class="notice" id="notice"></div>
+
+      <div class="controls">
+        <button class="ctl" id="muteBtn" title="Mute"><span>🎙️</span>Mute</button>
+        <button class="ctl" id="extendBtn" title="+3 min"><span>⏱️</span>+3 min</button>
+        <button class="ctl" id="friendBtn" title="Friend"><span>🤝</span>Friend</button>
+        <button class="ctl danger" id="reportBtn" title="Report"><span>🚩</span>Report</button>
+      </div>
+
+      <div class="chatbox">
+        <div class="msgs" id="msgs"></div>
+        <form id="chatForm">
+          <input id="chatInput" maxlength="300" placeholder="Type if voice isn't working…" autocomplete="off" />
+          <button>Send</button>
+        </form>
+      </div>
+
+      <div class="bottom">
+        <button class="ghost" id="stopBtn">Stop</button>
+        <button class="big next" id="nextBtn">Next →</button>
+      </div>
+    </section>
+
+    <!-- REPORT DIALOG -->
+    <dialog id="reportDlg">
+      <form method="dialog">
+        <h3>Report this person</h3>
+        <p>They'll be skipped and you won't be matched with them again.</p>
+        <select id="reportReason">
+          <option>Harassment or hate</option>
+          <option>Sexual content</option>
+          <option>Underage</option>
+          <option>Spam / ads</option>
+          <option>Other</option>
+        </select>
+        <div class="dlg-actions">
+          <button value="cancel" class="ghost">Cancel</button>
+          <button value="ok" class="danger-btn">Report & skip</button>
+        </div>
+      </form>
+    </dialog>
+
+    <audio id="remoteAudio" autoplay playsinline></audio>
+  </main>
+  <script src="app.js"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" async defer></script>
+</body>
+</html>
