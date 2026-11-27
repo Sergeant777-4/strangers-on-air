@@ -2,3 +2,5 @@ node_modules/
 certs/
 config.json
 tools/
+upload-to-github/
+data/

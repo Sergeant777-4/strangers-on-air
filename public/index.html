@@ -2,130 +2,757 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f1e6de" />
+  <meta name="description" content="Talk to a stranger somewhere in the world. Free random voice calls — no account, no profile, 18+." />
   <title>Strangers on Air</title>
+  <link rel="icon" type="image/svg+xml" href="logo-mark.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <script>
+    // apply saved theme before paint
+    (function () { try { var t = JSON.parse(localStorage.getItem('soa-theme')); if (!t) t = 'light'; document.documentElement.dataset.theme = t; } catch (e) {} })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Figtree:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="app">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- SVG icon set (one family, 2px stroke) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"/><path d="M18 14a6.5 6.5 0 0 1 3.5 6"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+      <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M15 3h-2.5A3.5 3.5 0 0 0 9 6.5V10H6.5v3.5H9V21h3.5v-7.5H15l.5-3.5h-3V7a1 1 0 0 1 1-1H15Z"/></symbol>
+      <symbol id="i-reddit" viewBox="0 0 24 24"><ellipse cx="12" cy="14.5" rx="8" ry="5.5"/><circle cx="18.5" cy="5" r="1.6"/><path d="M12 9l1.4-5.2 3.5 1"/><path d="M9.3 17.2c1.6 1 3.8 1 5.4 0"/><circle cx="9" cy="13.6" r=".9"/><circle cx="15" cy="13.6" r=".9"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M4 4h4.5L20 20h-4.5Z"/><path d="M19.5 4l-6.6 7.3M4.5 20l6.6-7.3"/></symbol>
+      <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".7"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+      <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></symbol>
+      <symbol id="i-volume-x" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="m16 9 6 6M22 9l-6 6"/></symbol>
+      <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+      <symbol id="i-mic-off" viewBox="0 0 24 24"><path d="M15 10V6a3 3 0 0 0-5.7-1.3M9 9v2a3 3 0 0 0 5 2.2"/><path d="M19 11a7 7 0 0 1-1.2 3.9M5 11a7 7 0 0 0 11 5.7M12 18v3M3 3l18 18"/></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8.5 8.5 0 0 1-12.3 7.6L3 21l1.4-5.4A8.5 8.5 0 1 1 21 12Z"/></symbol>
+      <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 3h3l2 5-2.5 1.5a11 11 0 0 0 7 7L16 14l5 2v3a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2Z"/></symbol>
+      <symbol id="i-user-plus" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M19 8v6M16 11h6"/></symbol>
+      <symbol id="i-game" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="11" rx="5.5"/><path d="M7 10.5v4M5 12.5h4"/><circle cx="16" cy="11" r=".6"/><circle cx="18" cy="13.5" r=".6"/></symbol>
+      <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z"/></symbol>
+      <symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14a4.5 4.5 0 0 0 8 0M9 9.5h.01M15 9.5h.01"/></symbol>
+      <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+      <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 18 9 12l6-6"/></symbol>
+      <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></symbol>
+      <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10 20a2 2 0 0 0 4 0"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
+      <symbol id="i-next" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 7 8.5-7"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+      <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+      <symbol id="i-skip" viewBox="0 0 24 24"><path d="M6 5l9 7-9 7V5ZM18 5v14"/></symbol>
+      <symbol id="i-user-off" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 12.5-6.6M3 3l18 18"/></symbol>
+      <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></symbol>
+      <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></symbol>
+    </defs>
+  </svg>
+
+  <canvas id="globe" aria-hidden="true"></canvas>
+
+  <div class="shell">
+    <!-- ============ HEADER ============ -->
     <header class="top">
-      <div class="logo"><span class="wave"></span>Strangers on Air</div>
-      <div class="online"><span class="dot"></span><span id="online">0</span> online</div>
-    </header>
-
-    <!-- HOME -->
-    <section id="home" class="screen active">
-      <h1>Talk to someone new.</h1>
-      <p class="sub">Voice only. 3-minute rounds. No names, no numbers.</p>
-
-      <div class="you">You'll appear as <strong id="myNick">…</strong></div>
-
-      <div class="field">
-        <label>Vibe</label>
-        <div class="chips" id="interests">
-          <button class="chip active" data-v="any">Anything</button>
-          <button class="chip" data-v="chill">😌 Chill</button>
-          <button class="chip" data-v="funny">😂 Funny</button>
-          <button class="chip" data-v="deep">🌌 Deep talk</button>
-          <button class="chip" data-v="music">🎵 Music</button>
-          <button class="chip" data-v="gaming">🎮 Gaming</button>
-          <button class="chip" data-v="study">📚 Study</button>
-          <button class="chip" data-v="english">🗣️ Practice English</button>
-        </div>
+      <button class="logo" data-go="home" aria-label="Strangers on Air — home"><img class="logo-mark" src="logo-mark.svg" width="36" height="36" alt="" /><span class="logo-word">Strangers</span><span class="lamp">ON AIR</span></button>
+      <!-- site menu: How It Works · Safety · FAQ, then Start a call -->
+      <div class="nav-center">
+        <nav class="tabs lp-nav" id="tabs" aria-label="Main">
+          <button data-scroll-to="how">How It Works</button>
+          <button data-scroll-to="safety">Safety</button>
+          <button data-scroll-to="faq">FAQ</button>
+        </nav>
+        <button class="lp-btn lp-btn-dark nav-cta" id="navStart"><svg class="i" aria-hidden="true"><use href="#i-chat"/></svg><span>Start a call</span></button>
       </div>
-
-      <div class="field">
-        <label for="lang">Language</label>
-        <select id="lang">
-          <option value="any">Any language</option>
-          <option value="en">English</option>
-          <option value="ar">العربية</option>
-          <option value="fr">Français</option>
-          <option value="es">Español</option>
-          <option value="de">Deutsch</option>
-          <option value="tr">Türkçe</option>
+      <div class="top-right">
+        <select id="uiLang" class="mini-select" aria-label="Language">
+          <option value="en">EN</option><option value="fr">FR</option><option value="es">ES</option><option value="ar">AR</option>
         </select>
-      </div>
-
-      <label class="check"><input type="checkbox" id="adult" /> I'm 18 or older and I'll be respectful.</label>
-
-      <div class="shield">
-        <div id="turnstile"></div>
-        <div class="shield-status" id="shieldStatus">Checking you're human (Cloudflare)…</div>
-      </div>
-
-      <button id="talkBtn" class="big" disabled>Talk</button>
-      <p class="fine">Your IP is never shown to the other person in this UI, but direct calls can reveal it to them technically. See README before going public.</p>
-    </section>
-
-    <!-- CALL -->
-    <section id="call" class="screen">
-      <div class="stage">
-        <div class="ring-wrap">
-          <svg class="ring" viewBox="0 0 120 120">
-            <circle class="track" cx="60" cy="60" r="54" />
-            <circle id="ringBar" class="bar" cx="60" cy="60" r="54" />
-          </svg>
-          <div class="avatar" id="avatar">
-            <div class="pulse" id="pulse"></div>
-            <span id="avatarEmoji">🎧</span>
+        <button class="icon-btn" id="themeBtn" aria-label="Dark / light mode"><svg class="i" aria-hidden="true"><use href="#i-moon"/></svg></button>
+        <button class="icon-btn hide-sm" id="soundBtn" aria-label="Sounds" aria-pressed="true"><svg class="i" aria-hidden="true"><use href="#i-volume"/></svg></button>
+        <div class="account">
+          <button class="icon-btn" id="accountBtn" aria-label="Friends, history and profile" aria-haspopup="true" aria-expanded="false" aria-controls="accountMenu"><svg class="i" aria-hidden="true"><use href="#i-user"/></svg><i class="badge" id="friendsBadge" hidden>0</i></button>
+          <div class="account-menu" id="accountMenu" hidden>
+            <button data-go="friends"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg><span data-i18n="navFriends">Friends</span><i class="badge inline" id="friendsBadgeMenu" hidden>0</i></button>
+            <button data-go="history"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg><span data-i18n="navHistory">History</span></button>
+            <button data-go="profile"><svg class="i" aria-hidden="true"><use href="#i-user"/></svg><span data-i18n="navProfile">Profile</span></button>
           </div>
         </div>
-        <div class="status" id="status">Looking for someone…</div>
-        <div class="partner" id="partner"></div>
-        <div class="timer" id="timer">3:00</div>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="tabs"><svg class="i" aria-hidden="true"><use href="#i-menu"/></svg></button>
       </div>
+    </header>
 
-      <div class="topic" id="topicCard">
-        <div class="topic-label">Icebreaker</div>
-        <div class="topic-text" id="topic">—</div>
-        <button class="link" id="shuffle">Another one ↻</button>
-      </div>
+    <!-- phones: app tab bar at the bottom -->
+    <nav class="appbar" id="appbar" aria-label="App">
+      <button data-go="home" class="active"><svg class="i" aria-hidden="true"><use href="#i-home"/></svg><b data-i18n="navHome">Home</b></button>
+      <button data-go="friends"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg><b data-i18n="navFriends">Friends</b><i class="badge" id="friendsBadgeBar" hidden>0</i></button>
+      <button data-go="history"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg><b data-i18n="navHistory">History</b></button>
+      <button data-go="profile"><svg class="i" aria-hidden="true"><use href="#i-user"/></svg><b data-i18n="navProfile">Profile</b></button>
+    </nav>
 
-      <div class="notice" id="notice"></div>
-
-      <div class="controls">
-        <button class="ctl" id="muteBtn" title="Mute"><span>🎙️</span>Mute</button>
-        <button class="ctl" id="extendBtn" title="+3 min"><span>⏱️</span>+3 min</button>
-        <button class="ctl" id="friendBtn" title="Friend"><span>🤝</span>Friend</button>
-        <button class="ctl danger" id="reportBtn" title="Report"><span>🚩</span>Report</button>
-      </div>
-
-      <div class="chatbox">
-        <div class="msgs" id="msgs"></div>
-        <form id="chatForm">
-          <input id="chatInput" maxlength="300" placeholder="Type if voice isn't working…" autocomplete="off" />
-          <button>Send</button>
-        </form>
-      </div>
-
-      <div class="bottom">
-        <button class="ghost" id="stopBtn">Stop</button>
-        <button class="big next" id="nextBtn">Next →</button>
-      </div>
-    </section>
-
-    <!-- REPORT DIALOG -->
-    <dialog id="reportDlg">
-      <form method="dialog">
-        <h3>Report this person</h3>
-        <p>They'll be skipped and you won't be matched with them again.</p>
-        <select id="reportReason">
-          <option>Harassment or hate</option>
-          <option>Sexual content</option>
-          <option>Underage</option>
-          <option>Spam / ads</option>
-          <option>Other</option>
-        </select>
-        <div class="dlg-actions">
-          <button value="cancel" class="ghost">Cancel</button>
-          <button value="ok" class="danger-btn">Report & skip</button>
+    <main class="app" id="main" tabindex="-1">
+      <!-- ============ HOME ============ -->
+      <section id="home" class="screen active lp">
+        <!-- 1 · HERO -->
+        <div class="lp-hero lp-wrap">
+          <div class="lp-hero-text">
+            <p class="lp-eyebrow">Random calls · Free · 18+</p>
+            <h1 class="lp-h1">Talk to a stranger <br />somewhere <br />in the world</h1>
+            <p class="lp-lead">One click puts you in a voice call with a real person in another country. Say hello, stay for a minute or an hour, and move on the second it stops being fun.</p>
+            <ul class="lp-checks">
+              <li><svg class="i" aria-hidden="true"><use href="#i-check-circle"/></svg>No account, no profile</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-check-circle"/></svg>Works in your browser</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-check-circle"/></svg>Skip or block in one tap</li>
+            </ul>
+            <div class="lp-actions">
+              <button class="lp-btn lp-btn-dark" data-start="voice">Start a call</button>
+              <button class="lp-btn lp-btn-outline" data-scroll-to="safety">How we keep it safe</button>
+            </div>
+          </div>
+          <figure class="lp-photo lp-hero-photo"><img src="img/hero.jpg" alt="A woman with headphones laughing during a call at her desk in the evening" width="654" height="880" /></figure>
         </div>
-      </form>
-    </dialog>
 
-    <audio id="remoteAudio" autoplay playsinline></audio>
-  </main>
+        <!-- 1b · HOW A CALL STARTS -->
+        <section class="lp-how lp-wrap" id="how" aria-labelledby="howTitle">
+          <div class="lp-center">
+            <p class="lp-eyebrow">How it works</p>
+            <h2 class="lp-h2" id="howTitle">From pressing start to saying <br />hello, in about four seconds</h2>
+            <p class="lp-sub">No account, no profile, no form to fill in. Three things happen, and you can leave at any of them.</p>
+          </div>
+          <ol class="lp-steps">
+            <li><span class="lp-num">1</span><h3>Allow your microphone</h3><p>Your browser asks once. Nothing is recorded, and there's no camera — calls are voice only.</p></li>
+            <li><span class="lp-num">2</span><h3>You're matched</h3><p>The next person in the queue connects straight away. No browsing, no profiles, nobody deciding whether to accept you.</p></li>
+            <li><span class="lp-num">3</span><h3>Talk, or move on</h3><p>Stay as long as the conversation is good. If it isn't, hit skip and you're already with someone new.</p></li>
+          </ol>
+        </section>
+
+        <!-- 2 · WHY DIFFERENT + SAFETY -->
+        <section class="lp-band lp-mauve" id="different" aria-labelledby="diffTitle">
+          <div class="lp-wrap">
+            <div class="lp-split">
+              <div>
+                <p class="lp-eyebrow">Why this one's different</p>
+                <h2 class="lp-h2 lp-left" id="diffTitle">Random chat has a reputation. Here's what stops this one going the same way.</h2>
+                <p class="lp-small">Skip, block and report sit on the call screen itself, so you're never more than one tap from out of a conversation.</p>
+              </div>
+              <ul class="lp-features">
+                <li><svg class="i" aria-hidden="true"><use href="#i-mic"/></svg><h3>Voice or text, your choice</h3><p>Some people want to talk; some want to type at 2am. Pick before you start, and switch a text chat to voice when you both agree.</p></li>
+                <li><svg class="i" aria-hidden="true"><use href="#i-skip"/></svg><h3>Skip without explaining</h3><p>No goodbye, no apology needed. One tap ends the call for both of you and puts you in front of someone new.</p></li>
+                <li><svg class="i" aria-hidden="true"><use href="#i-user-off"/></svg><h3>No account, no profile</h3><p>Nothing to sign up for and no bio to write. Open the page, allow the microphone, and you're talking to someone.</p></li>
+              </ul>
+            </div>
+
+            <div class="lp-split lp-safety" id="safety">
+              <figure class="lp-photo"><img src="img/safety.jpg" alt="A person with headphones typing on a laptop at night" width="656" height="504" loading="lazy" /></figure>
+              <div>
+                <p class="lp-eyebrow">Safety and control</p>
+                <h2 class="lp-h2 lp-left">End a bad call before <br />it turns into a story</h2>
+                <p class="lp-small">Report, block and skip sit on the same screen as the call, so none of them takes more than a tap. Phone numbers, emails and links are hidden automatically, and blocking someone means you're never matched with them again.</p>
+                <ul class="lp-mini">
+                  <li><svg class="i" aria-hidden="true"><use href="#i-ban"/></svg>Blocking removes someone from your queue for good</li>
+                  <li><svg class="i" aria-hidden="true"><use href="#i-shield"/></svg>18+ only, with the same rules for everyone on the call</li>
+                  <li><svg class="i" aria-hidden="true"><use href="#i-flag"/></svg>Messages are checked by automatic and AI moderation</li>
+                </ul>
+                <button class="lp-btn lp-btn-outline" id="lpRules">Read the safety rules</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3 · MIDNIGHT BAND -->
+        <section class="lp-band lp-brown lp-midnight" aria-label="Start a call">
+          <h2 class="lp-h2 lp-light">It's past midnight somewhere. <br />Someone's awake.</h2>
+          <button class="lp-btn lp-btn-light" data-start="voice">Start a call</button>
+        </section>
+
+        <!-- 4 · FAQ -->
+        <section class="lp-faq lp-wrap" id="faq" aria-labelledby="faqTitle">
+          <div class="lp-center">
+            <p class="lp-eyebrow">Before your first call</p>
+            <h2 class="lp-h2" id="faqTitle">The things people ask <br />before their first call</h2>
+          </div>
+          <div class="lp-faq-list">
+            <details open><summary>Is it actually free?</summary><p>Yes. Calls cost nothing and there's no account or credit to buy. The tradeoff is that everyone else is using it too, so not every conversation will be a good one.</p></details>
+            <details open><summary>Do I need to sign up?</summary><p>No. You can start a call without an account, and there's no profile for anyone to look up afterwards.</p></details>
+            <details open><summary>Can the other person see me?</summary><p>No. Calls are voice only — there's no camera. You appear with a nickname, and contact details are hidden in chats with strangers.</p></details>
+            <details open><summary>What happens when I skip?</summary><p>The call ends for both people straight away. Neither side keeps the conversation, and you're matched with someone new the moment you press start again.</p></details>
+            <details open><summary>What do you do about people who break the rules?</summary><p>Reports are saved for review and the person is blocked from your queue. Messages that break the rules are removed automatically, and repeat offenders are paused.</p></details>
+            <details open><summary>Can I choose the country or the language?</summary><p>Yes. Open Filters before you start to pick a language, interests, countries to match with — or countries to leave out.</p></details>
+          </div>
+        </section>
+
+        <!-- 5 · BIG CTA CARD -->
+        <section class="lp-wrap lp-cta-wrap" aria-labelledby="ctaTitle">
+          <div class="lp-cta">
+            <img src="img/cta.jpg" alt="A young man laughing on a video call from his bed at night" width="1056" height="590" loading="lazy" />
+            <div class="lp-cta-body">
+              <p class="lp-eyebrow lp-light">Free · No account · 18+</p>
+              <h2 class="lp-h2 lp-left lp-light" id="ctaTitle">Nobody to talk to tonight? <br />Fix that in one click.</h2>
+              <p class="lp-small lp-light">Press start and the next person who's free picks up. If the conversation isn't for you, skip it and try another.</p>
+              <button class="lp-btn lp-btn-light" data-start="voice">Start a call</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6 · FOOTER -->
+        <footer class="lp-footer">
+          <div class="lp-wrap">
+            <button class="lp-footer-logo" data-go="home" aria-label="Strangers on Air — home"><img src="logo-mark.svg" width="34" height="34" alt="" /><span>Strangers on Air</span></button>
+            <nav class="lp-footer-links" aria-label="Footer">
+              <button data-scroll-to="how">How It Works</button>
+              <button data-scroll-to="safety">Safety</button>
+              <button data-scroll-to="faq">FAQ</button>
+              <button data-go="about">About</button>
+              <button data-go="contact">Contact</button>
+              <button data-go="blog">Blog</button>
+            </nav>
+            <hr />
+            <p class="lp-copy">Strangers on Air. All rights reserved. · <span id="year"></span></p>
+          </div>
+        </footer>
+      </section>
+
+      <!-- ============ START: security check, 18+, then voice or text ============ -->
+      <section id="start" class="screen page start-page" aria-labelledby="startTitle">
+        <div class="page-hero">
+          <span class="eyebrow" data-i18n="checkEyebrow">Security check</span>
+          <h1 id="startTitle"><span data-i18n="checkTitleA">Just a</span> <span class="gradient-text" data-i18n="checkTitleB">quick check</span></h1>
+          <p class="hero-copy" data-i18n="checkLead">Cloudflare checks that you're a real person. It keeps bots and spammers out and only takes a second.</p>
+        </div>
+
+        <ol class="steps-bar" aria-label="Steps">
+          <li id="stepCheck"><span class="step-dot">1</span><span data-i18n="stepCheck">Security check</span></li>
+          <li id="stepAdult"><span class="step-dot">2</span><span data-i18n="stepAdult">Confirm 18+</span></li>
+          <li id="stepMode"><span class="step-dot">3</span><span data-i18n="stepMode">Choose voice or text</span></li>
+        </ol>
+
+        <div class="start-panel glass" id="startPanel">
+          <div class="check-box">
+            <div class="shield-badge depth" aria-hidden="true"><svg class="i" aria-hidden="true"><use href="#i-shield"/></svg></div>
+            <div class="shield">
+              <div id="turnstile"></div>
+              <div class="shield-status" id="shieldStatus" role="status" data-i18n="checking">Checking you're human (Cloudflare)…</div>
+            </div>
+          </div>
+
+          <label class="check big-check"><input type="checkbox" id="adult" /> <span><span data-i18n="adult">I'm 18 or older and I'll follow the</span> <button type="button" class="link inline" id="rulesLink" data-i18n="rules">rules</button>.</span></label>
+
+          <div class="start-btns">
+            <button id="startVoice" class="btn btn-primary btn-3d" disabled><svg class="i" aria-hidden="true"><use href="#i-mic"/></svg><span data-i18n="startVoice">Start voice chat</span></button>
+            <button id="startText" class="btn btn-cyan btn-3d" disabled><svg class="i" aria-hidden="true"><use href="#i-chat"/></svg><span data-i18n="startText">Start text chat</span></button>
+          </div>
+          <p class="fine start-hint" id="startHint" data-i18n="startHint">Finish steps 1 and 2 to unlock the buttons.</p>
+
+          <details class="filters" id="filters">
+            <summary><span class="sum-label"><svg class="i" aria-hidden="true"><use href="#i-sliders"/></svg> <span data-i18n="filters">Filters</span></span><span class="filter-summary" id="filterSummary"></span></summary>
+            <div class="field">
+              <label data-i18n="interests">Interests</label>
+              <div class="chips" id="interestChips"></div>
+              <label class="check small"><input type="checkbox" id="similarOnly" /> <span data-i18n="similarOnly">Only match people with a shared interest</span></label>
+            </div>
+            <div class="grid2">
+              <div class="field">
+                <label for="lang" data-i18n="language">Language</label>
+                <select id="lang"></select>
+              </div>
+              <div class="field">
+                <label for="genderPref" data-i18n="genderPref">Talk to</label>
+                <select id="genderPref">
+                  <option value="any" data-i18n="anyone">Anyone</option>
+                  <option value="female" data-i18n="women">Women</option>
+                  <option value="male" data-i18n="men">Men</option>
+                  <option value="other" data-i18n="otherGender">Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="myGender" data-i18n="myGender">I am</label>
+                <select id="myGender">
+                  <option value="" data-i18n="preferNot">Prefer not to say</option>
+                  <option value="female" data-i18n="woman">A woman</option>
+                  <option value="male" data-i18n="man">A man</option>
+                  <option value="other" data-i18n="otherGender">Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="myCountry" data-i18n="myCountry">My country</label>
+                <select id="myCountry"></select>
+              </div>
+            </div>
+            <div class="field">
+              <label data-i18n="countries">Countries</label>
+              <div class="country-row">
+                <button type="button" class="ghost small" id="pickCountries"></button>
+                <button type="button" class="ghost small" id="pickExclude"></button>
+              </div>
+            </div>
+            <p class="fine" data-i18n="filterNote">Gender and country are self-declared, so filters are a best effort. Strict filters can mean longer waits.</p>
+          </details>
+
+          <div class="mictest">
+            <button class="ghost small" id="micTestBtn"><svg class="i" aria-hidden="true"><use href="#i-mic"/></svg> <span data-i18n="testMic">Test my mic</span></button>
+            <div class="meter" aria-hidden="true"><div class="meter-fill" id="micTestFill"></div></div>
+            <span class="mictest-msg" id="micTestMsg"></span>
+          </div>
+        </div>
+        <button class="link back-link center-link" data-go="home"><svg class="i sm flip-rtl" aria-hidden="true"><use href="#i-back"/></svg><span data-i18n="backHome">Back to home</span></button>
+      </section>
+
+      <!-- ============ ABOUT ============ -->
+      <section id="about" class="screen page">
+        <div class="page-hero">
+          <span class="eyebrow" data-i18n="aboutEyebrow">About us</span>
+          <h1><span data-i18n="aboutTitleA">Conversations that</span> <span class="gradient-text" data-i18n="aboutTitleB">bring people together</span></h1>
+          <p class="hero-copy" data-i18n="aboutLead">Strangers on Air is a free place to talk with someone new — by voice or by text — without sign-ups, profiles or pressure. A short conversation can change your day.</p>
+        </div>
+        <div class="value-grid">
+          <article class="benefit tilt reveal-up"><div class="benefit-icon depth"><svg class="i" aria-hidden="true"><use href="#i-chat"/></svg></div><h3 data-i18n="val1t">Real conversations</h3><p data-i18n="val1">Voice first, with text when you need it. Icebreakers help you get past "hi".</p></article>
+          <article class="benefit tilt reveal-up"><div class="benefit-icon depth"><svg class="i" aria-hidden="true"><use href="#i-shield"/></svg></div><h3 data-i18n="val2t">Safety by default</h3><p data-i18n="val2">Contact details are hidden, messages are moderated, and you can block or report anyone in one tap.</p></article>
+          <article class="benefit tilt reveal-up"><div class="benefit-icon depth"><svg class="i" aria-hidden="true"><use href="#i-user"/></svg></div><h3 data-i18n="val3t">Anonymous</h3><p data-i18n="val3">No email, no phone number, no real name. You choose what to share.</p></article>
+          <article class="benefit tilt reveal-up"><div class="benefit-icon depth"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg></div><h3 data-i18n="val4t">Stay in touch</h3><p data-i18n="val4">Hit it off? Add each other as friends to message and call later.</p></article>
+        </div>
+        <div class="glass page-card reveal-up">
+          <h2 data-i18n="storyTitle">Why we built it</h2>
+          <p data-i18n="story1">Most social apps are about feeds and followers. We wanted the opposite: a quick, kind, human conversation with someone you'd never meet otherwise — a student in another country, someone practising English, someone who just wants to laugh.</p>
+          <p data-i18n="story2">Strangers on Air is small and independent. We're building it in the open and improving it with your feedback.</p>
+          <button class="btn btn-primary btn-3d" data-start-nav><svg class="i" aria-hidden="true"><use href="#i-chat"/></svg><span data-i18n="startChatting">Start chatting</span></button>
+        </div>
+      </section>
+
+      <!-- ============ CONTACT ============ -->
+      <section id="contact" class="screen page">
+        <div class="page-hero">
+          <span class="eyebrow" data-i18n="contactEyebrow">Contact us</span>
+          <h1><span data-i18n="contactTitleA">We'd love to</span> <span class="gradient-text" data-i18n="contactTitleB">hear from you</span></h1>
+          <p class="hero-copy" data-i18n="contactLead">Questions, ideas, bugs or safety concerns — send us a message and we'll read it.</p>
+        </div>
+        <div class="contact-grid">
+          <form class="glass page-card form" id="contactForm" novalidate>
+            <div class="grid2">
+              <div class="field">
+                <label for="cName" data-i18n="cName">Name (optional)</label>
+                <input id="cName" maxlength="60" autocomplete="name" />
+              </div>
+              <div class="field">
+                <label for="cEmail" data-i18n="cEmail">Email (optional, for a reply)</label>
+                <input id="cEmail" type="email" maxlength="120" autocomplete="email" />
+                <span class="field-error" id="cEmailErr" role="alert"></span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="cTopic" data-i18n="cTopic">Topic</label>
+              <select id="cTopic">
+                <option value="question" data-i18n="tQuestion">Question</option>
+                <option value="idea" data-i18n="tIdea">Idea or feedback</option>
+                <option value="bug" data-i18n="tBug">Something isn't working</option>
+                <option value="safety" data-i18n="tSafety">Safety concern</option>
+                <option value="other" data-i18n="rOther">Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cMessage" data-i18n="cMessage">Message</label>
+              <textarea id="cMessage" rows="6" maxlength="2000" required aria-describedby="cMsgErr"></textarea>
+              <span class="field-error" id="cMsgErr" role="alert"></span>
+            </div>
+            <button class="btn btn-primary btn-3d" id="cSend"><svg class="i" aria-hidden="true"><use href="#i-send"/></svg><span data-i18n="cSend">Send message</span></button>
+            <p class="contact-done" id="contactDone" hidden><span class="check-dot">✓</span> <span data-i18n="cThanks">Thanks! Your message was sent.</span></p>
+          </form>
+          <aside class="contact-side">
+            <div class="glass page-card tilt reveal-up"><div class="benefit-icon depth"><svg class="i" aria-hidden="true"><use href="#i-flag"/></svg></div><h3 data-i18n="cSideT1">Someone being abusive?</h3><p data-i18n="cSide1">Use the Report button inside the chat — it skips them instantly and blocks future matches.</p></div>
+            <div class="glass page-card tilt reveal-up"><div class="benefit-icon depth"><svg class="i" aria-hidden="true"><use href="#i-info"/></svg></div><h3 data-i18n="cSideT2">Quick answers</h3><p data-i18n="cSide2">Most questions are answered in the FAQ on the home page.</p><button class="link inline" data-go="home" data-scroll="faq" data-i18n="faqTitle">FAQ</button></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ============ BLOG ============ -->
+      <section id="blog" class="screen page">
+        <div class="page-hero">
+          <span class="eyebrow" data-i18n="blogEyebrow">Blog</span>
+          <h1><span data-i18n="blogTitleA">Stories, tips &amp;</span> <span class="gradient-text" data-i18n="blogTitleB">updates</span></h1>
+        </div>
+        <div class="post-grid" id="postGrid"></div>
+        <article class="glass page-card post" id="postView" hidden>
+          <button class="link back-link" id="postBack"><svg class="i sm flip-rtl" aria-hidden="true"><use href="#i-back"/></svg><span data-i18n="allPosts">All posts</span></button>
+          <div id="postBody"></div>
+        </article>
+      </section>
+
+      <!-- ============ SESSION: "Call + messages" (voice) or "Messages only" (text) ============ -->
+      <section id="session" class="screen sess" aria-label="Chat">
+        <div class="sess-grid">
+          <!-- CALL PANE: full call stage for voice; a slim top bar for text -->
+          <aside class="call-pane" aria-label="Call">
+            <p class="sess-mode" id="sessMode">Voice call</p>
+
+            <div class="stage" id="stage">
+              <div class="ring-wrap">
+                <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+                  <circle class="track" cx="60" cy="60" r="54" />
+                  <circle id="ringBar" class="bar" cx="60" cy="60" r="54" />
+                </svg>
+                <div class="avatar" id="avatar">
+                  <div class="pulse" id="pulse"></div>
+                  <span id="avatarEmoji">🎧</span>
+                </div>
+                <div class="badge-muted" id="partnerMuted" hidden>🔇</div>
+              </div>
+            </div>
+
+            <div class="who">
+              <div class="who-avatar" id="whoAvatar">🎧</div>
+              <div class="who-text">
+                <div class="who-name"><span id="partnerName"></span> <span id="partnerFlag"></span></div>
+                <div class="status" id="status" data-i18n="looking">Looking for someone…</div>
+              </div>
+            </div>
+            <div class="meta">
+              <span class="timer" id="timer"></span>
+              <span class="quality" id="quality" hidden><span class="q-dot"></span><span id="qualityText">—</span></span>
+            </div>
+            <div class="common" id="common"></div>
+            <div class="notice" id="notice" role="status"></div>
+
+            <div class="toolbar" id="toolbar">
+              <button class="ctl" id="muteBtn" data-voice aria-pressed="false"><svg class="i" aria-hidden="true"><use href="#i-mic"/></svg><b data-i18n="mute">Mute</b><i class="lvl" id="myLevel"></i></button>
+              <button class="ctl" id="extendBtn" data-voice data-random><svg class="i" aria-hidden="true"><use href="#i-timer"/></svg><b>+3 min</b></button>
+              <button class="ctl" id="voiceBtn" data-text><svg class="i" aria-hidden="true"><use href="#i-phone"/></svg><b data-i18n="toVoice">Voice</b></button>
+              <button class="ctl" id="friendBtn" data-random><svg class="i" aria-hidden="true"><use href="#i-user-plus"/></svg><b data-i18n="addFriend">Add friend</b></button>
+              <button class="ctl" id="gamesBtn" aria-expanded="false" aria-controls="gamePanel"><svg class="i" aria-hidden="true"><use href="#i-game"/></svg><b data-i18n="games">Games</b></button>
+              <button class="ctl danger" id="reportBtn"><svg class="i" aria-hidden="true"><use href="#i-flag"/></svg><b data-i18n="report">Report</b></button>
+            </div>
+
+            <div class="reactions" id="reactions" aria-label="Reactions">
+              <button data-e="👋" aria-label="Wave">👋</button><button data-e="😂" aria-label="Laugh">😂</button><button data-e="❤️" aria-label="Love">❤️</button>
+              <button data-e="🔥" aria-label="Fire">🔥</button><button data-e="👏" aria-label="Clap">👏</button><button data-e="😮" aria-label="Wow">😮</button>
+            </div>
+
+            <div class="bottom">
+              <div class="ca">
+                <span class="ca-wave" aria-hidden="true"></span>
+                <button class="call-btn call-go" id="nextBtn" aria-label="Call someone new"><svg class="i" aria-hidden="true"><use href="#i-phone"/></svg></button>
+                <b>Call</b>
+              </div>
+              <div class="ca">
+                <button class="call-btn call-end" id="stopBtn" aria-label="End call"><svg class="i" aria-hidden="true"><use href="#i-phone"/></svg></button>
+                <b>End call</b>
+              </div>
+            </div>
+          </aside>
+
+          <!-- CHAT PANE: messages next to the call, or the whole page for text chats -->
+          <div class="chat-pane" aria-label="Messages">
+            <div class="chat-pane-head">
+              <h2 class="chat-title"><span class="voice-only">Messages during the call</span><span class="text-only">Messages</span></h2>
+              <span class="chat-note"><svg class="i sm" aria-hidden="true"><use href="#i-shield"/></svg> Phone numbers, emails and links are hidden</span>
+            </div>
+
+            <div class="topic" id="topicCard">
+              <div class="topic-label" data-i18n="icebreaker">Icebreaker</div>
+              <div class="topic-text" id="topic">—</div>
+              <button class="link shuffle" id="shuffle"><svg class="i sm" aria-hidden="true"><use href="#i-shuffle"/></svg><span data-i18n="another">Another one</span></button>
+            </div>
+
+            <div class="game-panel" id="gamePanel" hidden>
+              <div class="game-tabs">
+                <button data-game="ttt" class="active"><span data-i18n="ttt">Tic-tac-toe</span></button>
+                <button data-game="rps"><span data-i18n="rps">Rock paper scissors</span></button>
+                <button class="icon-btn close-x" id="gameClose" aria-label="Close games"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+              </div>
+              <div class="game-body" id="gameBody"></div>
+            </div>
+
+            <div class="chatbox" id="chatbox">
+              <div class="msgs" id="msgs" role="log" aria-live="polite"></div>
+              <div class="typing" id="typing" hidden><i></i><i></i><i></i></div>
+              <form id="chatForm" class="composer">
+                <button type="button" class="emoji-btn" id="emojiBtn" aria-label="Emoji" aria-expanded="false"><svg class="i" aria-hidden="true"><use href="#i-smile"/></svg></button>
+                <label for="chatInput" class="sr-only" data-i18n="typeMsg">Type a message…</label>
+                <input id="chatInput" maxlength="500" autocomplete="off" data-i18n-ph="typeMsg" placeholder="Type a message…" />
+                <button class="send" aria-label="Send"><svg class="i" aria-hidden="true"><use href="#i-send"/></svg><span data-i18n="send">Send</span></button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMMUNICATION & GUIDELINES -->
+        <section class="sess-guide" aria-labelledby="sessGuideTitle">
+          <p class="lp-eyebrow">Communication and guidelines</p>
+          <h2 class="lp-h2" id="sessGuideTitle">How to keep a conversation good</h2>
+          <p class="sg-lead">The same few rules apply to everyone on every call. They're short, and they're the reason strangers here are worth talking to.</p>
+          <div class="sg-grid">
+            <article class="sg-card">
+              <svg class="i" aria-hidden="true"><use href="#i-mic"/></svg>
+              <h3>Talking well</h3>
+              <ul>
+                <li>Say hello first. Most people are just as unsure as you are.</li>
+                <li>Ask open questions. The icebreaker card is there if you're stuck.</li>
+                <li>Want longer? Both of you press +3 min and the timer resets.</li>
+                <li>Not clicking? Press Next. Nobody needs a reason.</li>
+              </ul>
+            </article>
+            <article class="sg-card">
+              <svg class="i" aria-hidden="true"><use href="#i-shield"/></svg>
+              <h3>The rules</h3>
+              <ul>
+                <li>18+ only. If someone seems younger, end the call and report it.</li>
+                <li>No hate, harassment, threats or sexual content.</li>
+                <li>Don't share phone numbers, emails, links or where you live. They're hidden automatically anyway.</li>
+                <li>Don't record or screenshot people without asking.</li>
+              </ul>
+            </article>
+            <article class="sg-card">
+              <svg class="i" aria-hidden="true"><use href="#i-flag"/></svg>
+              <h3>If something goes wrong</h3>
+              <ul>
+                <li><b>Next</b> ends the call straight away for both of you.</li>
+                <li><b>Report</b> sends the conversation for review.</li>
+                <li><b>Block</b> means you'll never be matched with that person again.</li>
+                <li>Repeat offenders are paused automatically.</li>
+              </ul>
+            </article>
+          </div>
+          <button class="lp-btn lp-btn-outline" id="sessRules">Read the full rules</button>
+        </section>
+
+        <!-- FOOTER: logo · follow us · site map -->
+        <footer class="sess-footer">
+          <div class="sf-wrap">
+            <div class="sf-brand">
+              <button class="lp-footer-logo" data-go="home" aria-label="Strangers on Air — home"><img src="logo-mark.svg" width="40" height="40" alt="" /><span>Strangers on Air</span></button>
+              <p>Talk to a stranger somewhere in the world. Free, anonymous, 18+.</p>
+            </div>
+            <div class="sf-follow">
+              <h3>Follow us</h3>
+              <ul class="sf-social">
+                <li><a href="#" data-social="facebook" target="_blank" rel="noopener" aria-label="Facebook"><svg class="i" aria-hidden="true"><use href="#i-facebook"/></svg></a></li>
+                <li><a href="#" data-social="reddit" target="_blank" rel="noopener" aria-label="Reddit"><svg class="i" aria-hidden="true"><use href="#i-reddit"/></svg></a></li>
+                <li><a href="#" data-social="x" target="_blank" rel="noopener" aria-label="X"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></a></li>
+                <li><a href="#" data-social="instagram" target="_blank" rel="noopener" aria-label="Instagram"><svg class="i" aria-hidden="true"><use href="#i-instagram"/></svg></a></li>
+              </ul>
+            </div>
+            <nav class="sf-map" aria-label="Site map">
+              <h3>Site map</h3>
+              <ul>
+                <li><button data-go="home">Home</button></li>
+                <li><button data-scroll-to="how">How It Works</button></li>
+                <li><button data-scroll-to="safety">Safety</button></li>
+                <li><button data-scroll-to="faq">FAQ</button></li>
+                <li><button data-go="about">About</button></li>
+                <li><button data-go="contact">Contact</button></li>
+                <li><button data-go="blog">Blog</button></li>
+              </ul>
+            </nav>
+          </div>
+          <hr />
+          <p class="lp-copy">Strangers on Air. All rights reserved. · <span class="year-now"></span></p>
+        </footer>
+      </section>
+
+      <!-- ============ FRIENDS ============ -->
+      <section id="friends" class="screen">
+        <div class="friends-layout">
+          <div class="friends-side" id="friendsSide">
+            <h2 data-i18n="navFriends">Friends</h2>
+            <div class="seg" id="friendTabs">
+              <button data-ft="list" class="active" data-i18n="ftList">Friends</button>
+              <button data-ft="requests"><span data-i18n="ftRequests">Requests</span> <i class="badge" id="reqBadge" hidden>0</i></button>
+              <button data-ft="add" data-i18n="ftAdd">Add</button>
+              <button data-ft="recent" data-i18n="ftRecent">Recent</button>
+              <button data-ft="blocked" data-i18n="ftBlocked">Blocked</button>
+            </div>
+            <div class="ft" id="ft-list"><div class="list" id="friendList"></div></div>
+            <div class="ft" id="ft-requests" hidden><div class="list" id="requestList"></div></div>
+            <div class="ft" id="ft-add" hidden>
+              <form id="addForm" class="row-form">
+                <input id="addName" placeholder="username" maxlength="20" autocomplete="off" />
+                <button class="big small-big" data-i18n="sendRequest">Send request</button>
+              </form>
+              <p class="fine" data-i18n="addHint">Ask your friend for their username (set in Profile). You can also add people you just talked to from Recent.</p>
+              <div class="my-name" id="myNameHint"></div>
+            </div>
+            <div class="ft" id="ft-recent" hidden>
+              <p class="fine" data-i18n="recentHint">People you talked to in this session. Send a friend request to reconnect.</p>
+              <div class="list" id="recentList"></div>
+            </div>
+            <div class="ft" id="ft-blocked" hidden><div class="list" id="blockedList"></div></div>
+            <button class="ghost small notif-btn" id="notifBtn"><svg class="i" aria-hidden="true"><use href="#i-bell"/></svg> <span data-i18n="enableNotif">Enable notifications</span></button>
+          </div>
+
+          <div class="dm" id="dm" hidden>
+            <div class="dm-head">
+              <button class="icon-btn" id="dmBack" aria-label="Back"><svg class="i flip-rtl" aria-hidden="true"><use href="#i-back"/></svg></button>
+              <div class="who-avatar small" id="dmAvatar">🙂</div>
+              <div class="who-text">
+                <div class="who-name" id="dmName"></div>
+                <div class="status" id="dmStatus"></div>
+              </div>
+              <div class="dm-actions">
+                <button class="icon-btn" id="dmCall" aria-label="Voice call"><svg class="i" aria-hidden="true"><use href="#i-phone"/></svg></button>
+                <button class="icon-btn" id="dmMore" aria-label="More options" aria-expanded="false" aria-controls="dmMenu"><svg class="i" aria-hidden="true"><use href="#i-more"/></svg></button>
+              </div>
+            </div>
+            <div class="dm-menu" id="dmMenu" hidden>
+              <button id="dmRemove" data-i18n="removeFriend">Remove friend</button>
+              <button id="dmBlock" class="danger" data-i18n="block">Block</button>
+              <button id="dmReport" class="danger" data-i18n="report">Report</button>
+            </div>
+            <div class="msgs dm-msgs" id="dmMsgs"></div>
+            <div class="typing" id="dmTyping" hidden><i></i><i></i><i></i></div>
+            <form id="dmForm" class="composer">
+              <button type="button" class="emoji-btn" id="dmEmojiBtn" aria-label="Emoji" aria-expanded="false"><svg class="i" aria-hidden="true"><use href="#i-smile"/></svg></button>
+              <label class="emoji-btn" aria-label="Send image" tabindex="0" role="button"><svg class="i" aria-hidden="true"><use href="#i-image"/></svg><input type="file" id="dmImage" accept="image/*" hidden /></label>
+              <label for="dmInput" class="sr-only" data-i18n="typeMsg">Type a message…</label>
+              <input id="dmInput" maxlength="1000" autocomplete="off" data-i18n-ph="typeMsg" placeholder="Type a message…" />
+              <button class="send" aria-label="Send"><svg class="i" aria-hidden="true"><use href="#i-send"/></svg><span data-i18n="send">Send</span></button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ HISTORY ============ -->
+      <section id="history" class="screen">
+        <div class="section-head">
+          <h2 data-i18n="navHistory">History</h2>
+          <button class="ghost small" id="clearHistory" data-i18n="clear">Clear</button>
+        </div>
+        <p class="fine" data-i18n="historyHint">Your text chats with strangers are saved only on this device.</p>
+        <div class="list" id="historyList"></div>
+        <div class="transcript" id="transcript" hidden>
+          <button class="link" id="transcriptBack" data-i18n="back">← Back</button>
+          <div class="msgs" id="transcriptMsgs"></div>
+        </div>
+      </section>
+
+      <!-- ============ PROFILE ============ -->
+      <section id="profile" class="screen">
+        <h2 data-i18n="navProfile">Profile</h2>
+        <form id="profileForm" class="card form">
+          <div class="profile-top">
+            <button type="button" class="big-avatar" id="avatarPick">🙂</button>
+            <div class="field grow">
+              <label for="pfUsername" data-i18n="username">Username (optional)</label>
+              <input id="pfUsername" maxlength="20" autocomplete="off" placeholder="e.g. night_owl" />
+              <span class="fine" data-i18n="usernameHint">3–20 letters, numbers or _. Friends can add you with it.</span>
+            </div>
+          </div>
+          <div class="avatar-grid" id="avatarGrid" hidden></div>
+          <div class="field">
+            <label for="pfBio" data-i18n="bio">About you</label>
+            <input id="pfBio" maxlength="140" autocomplete="off" />
+          </div>
+          <div class="field">
+            <label data-i18n="interests">Interests</label>
+            <div class="chips" id="pfInterests"></div>
+          </div>
+          <p class="profile-error" id="profileError"></p>
+          <button class="big small-big" data-i18n="save">Save</button>
+        </form>
+
+        <div class="card">
+          <h3 data-i18n="recovery">Recovery code</h3>
+          <p class="fine" data-i18n="recoveryHint">This code is your account. Keep it secret. Paste it on another device to use the same account and friends.</p>
+          <div class="row-form">
+            <input id="myCode" readonly />
+            <button class="ghost small" id="copyCode" data-i18n="copy">Copy</button>
+          </div>
+          <form class="row-form" id="useCodeForm">
+            <input id="useCode" data-i18n-ph="pasteCode" placeholder="Paste a recovery code" autocomplete="off" />
+            <button class="ghost small" data-i18n="useCode">Use</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3 class="with-icon"><svg class="i" aria-hidden="true"><use href="#i-shield"/></svg><span data-i18n="moderation">Safety</span></h3>
+          <p class="fine" id="modInfo"></p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="floats" id="floats" aria-hidden="true"></div>
+  <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+  <div class="emoji-pop" id="emojiPop" hidden></div>
+
+  <!-- dialogs -->
+  <dialog id="reportDlg">
+    <form method="dialog">
+      <h3 data-i18n="reportTitle">Report this person</h3>
+      <p data-i18n="reportText">They'll be skipped and you won't be matched with them again.</p>
+      <select id="reportReason">
+        <option value="harassment" data-i18n="rHarass">Harassment or hate</option>
+        <option value="sexual" data-i18n="rSexual">Sexual content</option>
+        <option value="underage" data-i18n="rUnderage">Underage</option>
+        <option value="spam" data-i18n="rSpam">Spam / ads</option>
+        <option value="other" data-i18n="rOther">Other</option>
+      </select>
+      <label class="check small"><input type="checkbox" id="reportBlock" checked /> <span data-i18n="alsoBlock">Also block them</span></label>
+      <div class="dlg-actions">
+        <button value="cancel" class="ghost" data-i18n="cancel">Cancel</button>
+        <button value="ok" class="danger-btn" data-i18n="reportSkip">Report</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="rulesDlg">
+    <form method="dialog">
+      <h3 data-i18n="rulesTitle">House rules 📻</h3>
+      <ul class="rules">
+        <li data-i18n="rule1">Be kind. No hate, harassment or bullying.</li>
+        <li data-i18n="rule2">18+ only. No sexual content, ever.</li>
+        <li data-i18n="rule3">Stay anonymous. Don't share your full name, phone, address or socials with strangers.</li>
+        <li data-i18n="rule4">No ads or spam.</li>
+        <li data-i18n="rule5">Feel unsafe? Tap Report: they're skipped and never matched with you again.</li>
+      </ul>
+      <div class="dlg-actions"><button value="ok" class="big small-big" data-i18n="gotIt">Got it</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="callDlg">
+    <form method="dialog" class="call-dlg">
+      <div class="call-avatar" id="callAvatar">🙂</div>
+      <h3 id="callName"></h3>
+      <p id="callText"></p>
+      <div class="dlg-actions center">
+        <button value="decline" class="danger-btn" id="callDecline" data-i18n="decline">Decline</button>
+        <button value="accept" class="big small-big" id="callAccept" data-i18n="accept">Accept</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="countryDlg">
+    <form method="dialog">
+      <h3 id="countryDlgTitle"></h3>
+      <input id="countrySearch" data-i18n-ph="search" placeholder="Search…" autocomplete="off" />
+      <div class="country-list" id="countryList"></div>
+      <div class="dlg-actions">
+        <button value="clear" class="ghost" data-i18n="clear">Clear</button>
+        <button value="ok" class="big small-big" data-i18n="done">Done</button>
+      </div>
+    </form>
+  </dialog>
+
+  <audio id="remoteAudio" autoplay playsinline></audio>
+  <audio id="ringtone" loop></audio>
+
+  <script src="i18n.js"></script>
+  <script src="globe.js"></script>
+  <script src="games.js"></script>
+  <script src="blog.js"></script>
   <script src="app.js"></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" async defer></script>
 </body>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 80" role="img" aria-labelledby="t">
+  <title id="t">Strangers on Air</title>
+  <defs>
+    <linearGradient id="bg" x1="16" y1="12" x2="66" y2="70" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FB7185"/>
+      <stop offset=".55" stop-color="#E11D48"/>
+      <stop offset="1" stop-color="#BE123C"/>
+    </linearGradient>
+    <style>
+      .word { font-family: Outfit, "Segoe UI", system-ui, sans-serif; font-weight: 800; letter-spacing: -1px; }
+      .tag  { font-family: Outfit, "Segoe UI", system-ui, sans-serif; font-weight: 800; letter-spacing: 2.5px; }
+    </style>
+  </defs>
+  <!-- mark -->
+  <g transform="translate(8 8)">
+    <rect width="64" height="64" rx="16" fill="url(#bg)"/>
+    <path d="M16 0h32a16 16 0 0 1 16 16v4C50 12 14 12 0 20v-4A16 16 0 0 1 16 0z" fill="#fff" opacity=".12"/>
+    <path d="M32 12.5c10.8 0 19.5 7.6 19.5 17S42.8 46.5 32 46.5c-2.7 0-5.2-.45-7.5-1.3L14.5 50l3.1-8C14.4 39 12.5 34.5 12.5 29.5c0-9.4 8.7-17 19.5-17z" fill="#fff"/>
+    <circle cx="32" cy="29.5" r="3.6" fill="#E11D48"/>
+    <g fill="none" stroke="#E11D48" stroke-width="3" stroke-linecap="round">
+      <path d="M25.6 23.2a9 9 0 0 0 0 12.6"/>
+      <path d="M38.4 23.2a9 9 0 0 1 0 12.6"/>
+    </g>
+  </g>
+  <!-- wordmark -->
+  <text class="word" x="88" y="49" font-size="38" fill="#F8FAFC">Strangers</text>
+  <!-- ON AIR lamp -->
+  <rect x="270" y="23" width="82" height="30" rx="8" fill="#E11D48"/>
+  <text class="tag" x="311" y="44" font-size="15" fill="#fff" text-anchor="middle">ON AIR</text>
+</svg>
